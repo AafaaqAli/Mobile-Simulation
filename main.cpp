@@ -22,11 +22,9 @@ class Messages{
        string draft_messages[500];
        string template_messages[50];
        string sent_messages[500];
-
     public:
 
 };
-
 class CallHistory{
     private:
 
@@ -51,14 +49,9 @@ class Contacts{
                     add_Contact();
                     break;
                 case 51:
-
-
-
-
-
+                    //find_Contact();
                     getch();
                     break;
-
                 case 52:
                     //edit_Contact();
 
@@ -338,16 +331,14 @@ int menu() {
                             system("CLS");
                             exit('0');
                             }else {
-                            cout << "Invalid Number." << endl;
-                            getch();
-                            system("CLS");
-                            return menu();
-                        }
-
+                                cout << "Invalid Number." << endl;
+                                getch();
+                                system("CLS");
+                                return menu();
+                            }
     }
 
 }
-
 
 
 int main() {
