@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <cstring>
 
 using namespace std;
 
@@ -13,24 +14,65 @@ int add_Contact();
 int find_Contact();
 int edit_Contact();
 int delete_Contact();
+int read_inbox();
 
 
 class Messages{
-    private:
-       string inbox_messages[500];
-       string outbox_messages[500];
-       string draft_messages[500];
-       string template_messages[50];
-       string sent_messages[500];
     public:
+        int choice(){
+            int co_Choice;
+            cout << "1-Send a Message,\n2-View Inbox\n3-View Send Messages\n3-View Receive Messages\n4-View Templates" << endl;
+            co_Choice = getch();
+            switch(co_Choice){
+                case 49:
+                    cout << "Send Messages" << endl;
+                    getch();
+                    system("CLS");
+                    return menu();
+                case 50:
+                    system("CLS");
+                    read_inbox();
+                    getch();
+                    return menu();
 
+            }
+        }
 };
+
+int read_inbox(){
+    system("CLS");
+    string STRING;
+    fstream inbox;
+    inbox.open("inbox.txt", ios::in | ios::app | ios::binary);
+    if(inbox.is_open()){
+         if(inbox.is_open()){
+            while (getline(inbox, STRING)){
+                cout << STRING << endl;
+            }
+            getch();
+            system("CLS");
+            return menu();
+        }else{
+            cout << "File is Not Associated" << endl;
+            system("CLS");
+            getch();
+        }
+    }
+
+}
+
 class CallHistory{
     private:
-
+        //Call Logs
+        //Missed Calls
+        //Answered Calls
+        //Dialed Calls
+        //
     public:
 
 };
+
+
 
 class Contacts{
     public:
@@ -47,15 +89,18 @@ class Contacts{
                 case 50:
 
                     add_Contact();
-                    break;
-                case 51:
-                    //find_Contact();
                     getch();
                     break;
-                case 52:
-                    //edit_Contact();
 
-                    cout << " Edit Contact" << endl;
+                case 51:
+                    system("CLS");
+                    find_Contact();
+                    getch();
+                    system("CLS");
+                    break;
+
+                case 52:
+                    edit_Contact();
                     getch();
                     break;
 
@@ -70,27 +115,29 @@ class Contacts{
                     system("CLS");
                     return menu();
             }
-
-        }
+    }
 };
+
+
 
 int read_Contact(){
     system("CLS");
     string STRING;
-    ifstream contact_Output;
-    contact_Output.open("contacts.ali", ios::in | ios::app | ios::binary);
+    fstream contact_Output;
+    contact_Output.open("contacts.txt", ios::in | ios::app | ios::binary);
     if(contact_Output.is_open()){
+         if(contact_Output.is_open()){
             while (getline(contact_Output, STRING)){
                 cout << STRING << endl;
             }
-            contact_Output.close();
             getch();
             system("CLS");
-
-    }else{
-        cout << "File is Not Associated" << endl;
-        system("CLS");
-        getch();
+            return menu();
+        }else{
+            cout << "File is Not Associated" << endl;
+            system("CLS");
+            getch();
+        }
     }
 }
 
@@ -112,24 +159,89 @@ int add_Contact(){
         }
         system("CLS");
         cout << "Contact Has Been Saved" << endl;
-        getch();
-        system("CLS");
         full_Name = "(" + first_Name + ") " + last_Name;
-        ofstream contact_data;
-        contact_data.open("contacts.ali", ios::in | ios::app | ios::binary);
+        fstream contact_data;
+        contact_data.open("contacts.txt", ios::in | ios::app | ios::binary);
         if(contact_data.is_open()){
             contact_data << full_Name << ", " << Address << ", " << phone << endl;
             contact_data.close();
+            getch();
+            system("CLS");
+            return menu();
         }else{
             cout << "File is Not Associated " << endl;
         }
-
-};
-
+}
 
 int find_Contact(){
 
+    char word[30];
+    int count = 0, pCount = 0;
+    string find_this, input;
+    ifstream data;
+    data.open("contacts.txt", ios::app | ios::binary);
+    cout << "Type the First Name: ";
+    getline(cin, input);
+    cout << endl << endl;
+    find_this =  "(" + input + ")";
+
+   if(data.is_open()){
+
+        while(data.good()){
+            data >> word;
+            if(find_this == word){
+                for(int x = count -1 ; x <= count + 2; x++){
+                    cout << word << ' ';
+                    data >> word;
+                }
+                break;
+        }
+        count++;
+    }
+
+   }else {
+        cout << "File is not associated" << endl;
+        getch();
+        return find_Contact();
+   }
+
 }
+
+
+
+int edit_Contact(){
+
+    char word[30];
+    int count = 0, pCount = 0;
+    string find_this, input, str, split_fName, split_lName, split_address, split_number;
+    ifstream data;
+    data.open("contacts.txt", ios::app | ios::binary);
+    cout << endl;
+    cout << "Type the First Name: ";
+    getline(cin, input);
+   find_this =  "(" + input + ")";
+
+   if(data.is_open()){
+        while(data.good()){
+            data >> word;
+            if(find_this == word){
+                for(int x = count -1 ; x <= count + 2; x++){
+                    str = str + "/" + word + "/";
+                    data >> word;
+                }
+                break;
+            }
+            count++;
+        }
+   }else {
+        cout << "File is not associated" << endl;
+        getch();
+        return find_Contact();
+   }
+}
+
+
+
 
 class tools{
     public:
@@ -146,7 +258,6 @@ class tools{
                 cout << "Invalid Choice" << endl;
                 system("CLS");
             }
-
     }
 };
         int calculator(){
@@ -158,8 +269,8 @@ class tools{
             cout << "\n\n";
             if(his_Choice == 49){
 
-                ofstream calculation;
-                calculation.open ("Calculation.ali", ios::out | ios::app | ios::binary);
+                fstream calculation;
+                calculation.open ("Calculation.txt", ios::out | ios::app | ios::binary);
 
                 cout << "Type first Number: ";
                 cin >> first_Number;
@@ -234,17 +345,14 @@ class tools{
 
                 }
         }else{
-            ofstream calculation;
-            calculation.open ("Calculation.ali", ios::out | ios::app | ios::binary);
+            fstream calculation;
+            calculation.open ("Calculation.txt", ios::in | ios::app | ios::binary);
             if(calculation.is_open()){
-
-
                     string STRING;
-                    ifstream calculation_output("calculation.ali");
-                    while (getline(calculation_output, STRING)){
+                    while (getline(calculation, STRING)){
                             cout << STRING << endl;
                         }
-                    calculation_output.close();
+                    calculation.close();
                     cout << "\nPress exit to go to main menu or any key to continue Using Calculator: ";
                     sub_Choice = getch();
                         if(sub_Choice == 27){
@@ -265,7 +373,7 @@ class tools{
     int notes() {
         int note_Choice;
         string input_String;
-        ofstream note("notes.ali", ios::in | ios::app | ios::binary);
+        fstream note("notes.txt", ios::in | ios::app | ios::binary);
         if(note.is_open()){
             system("CLS");
             cout  << "1-Add a note\n2-view Notes";
@@ -291,7 +399,7 @@ class tools{
 
               }else if(note_Choice == 50){
                     system("CLS");
-                    ifstream notes("notes.ali", ios::in | ios::app | ios::binary);
+                    ifstream notes("notes.txt", ios::in | ios::app | ios::binary);
                     string line;
                     while(getline(notes, line)){
                         cout << line << endl;
@@ -309,7 +417,7 @@ class tools{
 
 
 int menu() {
-    tools to;
+
     int choice;
     while(choice != 27){
         cout << "----------------------------------------------------------------" << endl;
@@ -317,7 +425,8 @@ int menu() {
         cout << "----------------------------------------------------------------" << endl;
         choice = getch();
         if(choice == 49){
-            cout << "Messages" << endl;
+            Messages mes;
+            mes.choice();
             }else if(choice == 50){
                 system("CLS");
                 Contacts co;
@@ -325,20 +434,23 @@ int menu() {
                 }else if(choice == 51){
                     cout << "Call History" << endl;
                     }else if(choice == 52){
-                       to.Choice();
+                        tools to;
+                        to.Choice();
 
                         }else if(choice == 27){
                             system("CLS");
                             exit('0');
                             }else {
-                                cout << "Invalid Number." << endl;
-                                getch();
-                                system("CLS");
-                                return menu();
-                            }
+                            cout << "Invalid Number." << endl;
+                            getch();
+                            system("CLS");
+                            return menu();
+                        }
+
     }
 
 }
+
 
 
 int main() {

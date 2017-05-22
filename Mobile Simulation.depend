@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1495198225 source:d:\all projects\mobile simulation\main.cpp
+1495487176 source:d:\all projects\mobile simulation\main.cpp
 	<iostream>
 	<conio.h>
 	<stdlib.h>
 	<fstream>
+	<cstring>
 
