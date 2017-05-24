@@ -15,6 +15,9 @@ int find_Contact();
 int edit_Contact();
 int delete_Contact();
 int read_inbox();
+int view_callLog();
+int view_missedCalls();
+int view_dialedCalls();
 
 
 class Messages{
@@ -62,15 +65,78 @@ int read_inbox(){
 }
 
 class CallHistory{
-    private:
-        //Call Logs
-        //Missed Calls
-        //Answered Calls
-        //Dialed Calls
-        //
-    public:
 
+         public:
+             int choice(){
+                int choice;
+                cout << "1 to View Call Log, 2 to view Missed Calls, 3 to View Dialed Calls" << endl;
+                choice = getch();
+
+                if(choice == 49){
+                    view_callLog();
+                    getch();
+                    system("CLS");
+                }else if(choice == 50){
+                    view_missedCalls();
+                    getch();
+                    system("CLS");
+                }else if(choice == 51){
+                    view_dialedCalls();
+                    getch();
+                    system("CLS");
+                }
+             }
 };
+
+int view_callLog() {
+    ifstream data;
+    string str;
+    data.open("callLog.txt", ios::app | ios::binary);
+    if(data.is_open()){
+            system("CLS");
+            while(getline(data, str)){
+                cout << str << endl;
+            }
+                getch();
+        }else {
+        cout << "File is Not Associated" << endl;
+    }
+
+}
+
+
+
+int view_missedCalls(){
+    ifstream data;
+    string str;
+    data.open("MissedLog.txt", ios::app | ios::binary);
+    if(data.is_open()){
+            system("CLS");
+            while(getline(data, str)){
+                cout << str << endl;
+            }
+                getch();
+        }else {
+        cout << "File is Not Associated" << endl;
+    }
+
+}
+
+int view_dialedCalls(){
+    ifstream data;
+    string str;
+    data.open("DialedLog.txt", ios::app | ios::binary);
+    if(data.is_open()){
+            system("CLS");
+            while(getline(data, str)){
+                cout << str << endl;
+            }
+                getch();
+        }else {
+        cout << "File is Not Associated" << endl;
+    }
+
+}
 
 
 
