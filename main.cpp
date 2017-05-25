@@ -14,10 +14,12 @@ int add_Contact();
 int find_Contact();
 int edit_Contact();
 int delete_Contact();
-int read_inbox();
 int view_callLog();
 int view_missedCalls();
 int view_dialedCalls();
+int send_message();
+int read_inbox();
+int read_sentBox();
 
 
 class Messages{
@@ -28,7 +30,7 @@ class Messages{
             co_Choice = getch();
             switch(co_Choice){
                 case 49:
-                    cout << "Send Messages" << endl;
+                    send_message();
                     getch();
                     system("CLS");
                     return menu();
@@ -37,10 +39,53 @@ class Messages{
                     read_inbox();
                     getch();
                     return menu();
+                case 51:
+                    system("CLS");
+                    read_sentBox();
+                    getch();
+                    return menu();
 
             }
         }
 };
+
+int send_message(){
+    string message, number, f_name, word, name;
+    int choice, count = 0;
+    ofstream s_msg;
+    s_msg.open("sent_messages.txt", ios::app | ios::binary);
+    system("CLS");
+    cout << "Type The Message: ";
+    getline(cin, message);
+    cout << "1 to send to new new Contact, 2 to send to Existing Contact: ";
+    choice = getch();
+    if(choice == 49){
+        cout << "Type The Number: ";
+        getline(cin, number);
+        if(s_msg.is_open()){
+            s_msg << number + ": " + message << endl;
+            cout << "Messages Sent" << endl;
+        }
+
+        getch();
+        system("CLS");
+    }else if(choice == 50){
+        system("CLS");
+        cout << "\n\nType The First Name of the Person: ";
+        getline(cin, name);
+        if(s_msg.is_open()){
+           s_msg << name + ": " + message;
+           cout << "Message Sent" << endl;
+        }else{
+            cout << "File is not Associated" << endl;
+            getch();
+            return menu();
+        }
+
+        }
+        s_msg.close();
+
+}
 
 int read_inbox(){
     system("CLS");
@@ -62,6 +107,27 @@ int read_inbox(){
         }
     }
 
+}
+
+int read_sentBox(){
+    system("CLS");
+    string STRING;
+    fstream sentBox;
+    sentBox.open("sent_messages.txt", ios::in | ios::app | ios::binary);
+    if(sentBox.is_open()){
+         if(sentBox.is_open()){
+            while (getline(sentBox, STRING)){
+                cout << STRING << endl;
+            }
+            getch();
+            system("CLS");
+            return menu();
+        }else{
+            cout << "File is Not Associated" << endl;
+            system("CLS");
+            getch();
+        }
+    }
 }
 
 class CallHistory{
